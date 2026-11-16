@@ -1,0 +1,32 @@
+{
+  "id": "./",
+  "lang": "id",
+  "dir": "ltr",
+  "name": "Lelayu RT/RW — Pembuat Pengumuman Duka",
+  "short_name": "Lelayu RT/RW",
+  "description": "Buat pengumuman duka yang siap dicetak, dengan atau tanpa foto.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#e9faf1",
+  "theme_color": "#0e9f5e",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

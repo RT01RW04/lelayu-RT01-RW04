@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0e9f5e">
+  <meta name="description" content="Aplikasi offline untuk membuat pengumuman lelayu RT/RW.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <title>Lelayu RT/RW — Pembuat Pengumuman</title>
+  <style>
+    :root{--ink:#202522;--muted:#67716c;--green:#0e9f5e;--green2:#0c8a52;--purple:#7c3aed;--purple2:#6d28d9;--purpleSoft:#f4f0fe;--line:#e4e7ee;--paper:#fff;--wash:#f4f7f5;--gold:#c39a51}
+    *{box-sizing:border-box}body{margin:0;background:linear-gradient(165deg,#e9faf1 0%,#f3fbf6 34%,#f5f1fe 100%);background-attachment:fixed;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}
+    .topbar{background:linear-gradient(115deg,#0e9f5e 0%,#12a86a 45%,#7c3aed 100%);color:white;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;gap:12px;align-items:center}.brandmark{width:40px;height:40px;border:1px solid #ffffff65;border-radius:13px;display:grid;place-items:center;font-size:21px}.brand h1{font-size:18px;margin:0}.brand p{font-size:12px;margin:3px 0 0;color:#ffffffb3}.install{border:1px solid #ffffff70;background:transparent;color:white;padding:9px 13px;border-radius:10px;font-weight:700}
+    .layout{max-width:1440px;margin:auto;padding:22px;display:grid;grid-template-columns:minmax(330px,450px) minmax(440px,1fr);gap:22px;align-items:stretch}.panel{background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:0 6px 24px #7c3aed16;overflow:hidden}.form-panel{display:flex;flex-direction:column;min-height:0}.panelhead{padding:18px 20px;border-bottom:1px solid var(--line)}.panelhead h2{font-size:16px;margin:0 0 4px}.panelhead p{font-size:12px;color:var(--muted);margin:0}.formbody{padding:18px 20px 22px;flex:1;min-height:0;max-height:none;overflow:auto}.section-title{font-size:12px;font-weight:800;color:var(--purple2);text-transform:uppercase;letter-spacing:.08em;margin:17px 0 10px}.section-title:first-child{margin-top:0}.field{margin-bottom:12px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px;color:#39443e}.field input,.field textarea,.field select{width:100%;border:1px solid #d8e0dc;border-radius:9px;padding:10px 11px;background:#fff;color:var(--ink);outline:none}.field input:focus,.field textarea:focus,.field select:focus{border-color:#a78bfa;box-shadow:0 0 0 3px #7c3aed26}.field textarea{resize:vertical;min-height:68px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.radio-row{display:flex;gap:9px}.radio-card{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12px;display:flex;gap:8px;align-items:center;cursor:pointer}.radio-card:has(input:checked){border-color:#7c3aed;background:var(--purpleSoft)}.photo-box{border:1px dashed #c9bdf0;border-radius:10px;padding:12px;background:#fcfaff}.photo-box input{padding:8px}.hint{font-size:11px;color:var(--muted);margin:6px 0 0;line-height:1.45}.actions{display:flex;gap:9px;position:sticky;bottom:-22px;background:linear-gradient(#ffffffee,#fff 25%);padding:14px 0 0;margin-top:12px}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:750}.btn-primary{background:linear-gradient(135deg,#10a86a,#0c8a52);color:white;flex:1}.btn-secondary{background:var(--purpleSoft);color:var(--purple2)}
+    .preview-panel{position:sticky;top:16px}.preview-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:10px}.preview-head strong{font-size:14px}.preview-head span{font-size:11px;color:var(--muted)}.sheet-wrap{padding:22px;background:linear-gradient(180deg,#f0ebfc,#e9e2f8);min-height:calc(100vh - 200px);display:flex;justify-content:center;overflow:auto}.notice{background:var(--paper);width:min(100%,700px);min-height:900px;position:relative;box-shadow:0 5px 24px #1b2c241b;padding:46px 52px 42px;text-align:center;color:#151815;overflow:hidden;display:flex;flex-direction:column;align-items:center}.notice:before{content:"";position:absolute;inset:12px;border:2px solid #545b56;pointer-events:none}.notice.classic:before{inset:18px;border:4px double #555}.notice.classic:after{content:"❧";position:absolute;inset:25px;border:1px solid #8c938e;color:#777;font-size:30px;pointer-events:none;display:flex;align-items:flex-start;justify-content:center;padding-top:0}.notice .content{position:relative;z-index:1;width:100%}.bismillah{font-size:14px;font-weight:650;margin:2px 0 3px}.headline{font-weight:900;font-size:25px;line-height:1.15;margin:0 0 5px;font-style:italic}.subtitle{font-size:14px;line-height:1.5;margin:0 auto 10px;max-width:560px}.deceased-name{font-size:28px;line-height:1.15;font-weight:900;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;margin:13px 0}.notice.classic .headline{font-size:21px;font-style:normal;text-decoration:underline}.notice.classic .deceased-name{font-size:24px;text-decoration:none}.photo-frame{width:112px;height:112px;margin:12px auto 8px;border-radius:50%;overflow:hidden;border:2px solid #a6b1aa;display:grid;place-items:center;background:#f1f4f2;color:#88938c;font-size:36px}.photo-frame img{width:100%;height:100%;object-fit:cover}.photo-frame.hidden{display:none}.symbol{font-size:35px;color:#923e49;margin:8px auto 4px;height:40px}.symbol.hidden{display:none}.meta{font-size:14px;font-weight:650;line-height:1.7;margin:7px 0 14px}.bodytext{font-size:13px;line-height:1.55;text-align:justify;white-space:pre-line;margin:10px 0}.schedule{text-align:left;margin:8px auto 12px;font-size:13px;line-height:1.55}.closing{font-size:13px;font-weight:650;line-height:1.5;margin:8px auto 20px}.family-title{font-weight:750;font-size:14px;margin:10px 0}.family-list{width:min(100%,440px);text-align:left;margin:0 auto;font-size:13px;line-height:1.8}.family-row{display:grid;grid-template-columns:1fr 95px;gap:10px}.family-row .rel{text-align:left}.contributors{font-size:13px;line-height:1.8;text-align:left;width:min(100%,470px);margin:0 auto}.contributors ol{margin:0;padding-left:24px}.contributors li{padding-left:4px}.bottomnote{margin-top:auto;padding-top:28px;font-size:11px;color:#68716c}.notice.floral:after{content:"❀  ❧";position:absolute;right:18px;bottom:14px;color:#b6beb8;font-size:22px;letter-spacing:7px}.notice.classic .bottomnote{margin-top:30px}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#5b21b6;color:white;padding:10px 16px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+    @media(max-width:950px){.layout{grid-template-columns:1fr;padding:14px}.preview-panel{position:static;grid-row:1}.sheet-wrap{min-height:0;padding:12px}.notice{min-height:850px;padding:42px 38px}.formbody{flex:none;max-height:none;overflow:visible}.topbar{padding:14px 16px}}
+    @media(max-width:560px){.notice{width:100%;min-height:750px;padding:36px 24px}.notice:before{inset:8px}.headline{font-size:20px}.deceased-name{font-size:23px}.subtitle,.meta{font-size:12px}.bodytext,.schedule,.family-list,.contributors{font-size:11px}.photo-frame{width:94px;height:94px}.grid2{grid-template-columns:1fr 1fr}.topbar{align-items:flex-start}.brand h1{font-size:15px}.install{font-size:12px;padding:8px}}
+    @media print{@page{size:A4;margin:0}body{background:white}.topbar,.form-panel,.preview-head{display:none!important}.layout{display:block;margin:0;padding:0}.panel{border:0;box-shadow:none}.preview-panel{position:static}.sheet-wrap{padding:0;min-height:0;background:white;overflow:visible}.notice{width:210mm;min-height:297mm;height:297mm;box-shadow:none;padding:18mm 19mm 15mm}.notice:before{inset:9mm}.notice.classic:before{inset:11mm}.notice.classic:after{inset:14mm}.content{transform:scale(.98);transform-origin:top center}.bottomnote{color:#555}}
+
+    .floral-art{position:absolute;pointer-events:none;z-index:0}.floral-art.corner{width:145px;height:145px}.floral-art.top-left{top:3px;left:3px}.floral-art.bottom-right{right:2px;bottom:1px;transform:rotate(180deg)}.floral-art.vine{width:102px;height:245px;opacity:.42}.floral-art.vine-left{left:3%;top:31%}.floral-art.vine-right{right:1%;top:28%;transform:scaleX(-1)}.notice.classic .floral-art{display:none}.notice .content{z-index:2}
+    @media(max-width:560px){.floral-art.corner{width:102px;height:102px}.floral-art.vine{width:68px;height:180px}}
+    /* Footer paling bawah (kartu komunitas) tetap 6px di semua ukuran huruf. */
+    .bottomnote{margin-top:auto;padding-top:16px;width:100%;font-size:6px;color:#4f5c54}.community-card{display:inline-flex;flex-direction:column;gap:1px;max-width:88%;min-width:0;padding:4px 10px;border:1px solid #b8c2ba;border-radius:6px;background:#fff;color:#34413a;text-align:center}.community-neighborhood{font-size:6px;letter-spacing:.03em}.community-details{font-size:6px;line-height:1.4}.community-card:empty{display:none}.app-credit{font-size:8px;color:#8a948d;margin-top:6px;letter-spacing:.03em}
+    .geo-art{display:none;position:absolute;width:112px;height:112px;z-index:0;pointer-events:none}.notice.geometric .geo-art{display:block}.geo-tl{left:16px;top:16px}.geo-tr{right:16px;top:16px;transform:scaleX(-1)}.geo-bl{left:16px;bottom:16px;transform:scaleY(-1)}.geo-br{right:16px;bottom:16px;transform:scale(-1)}.notice.geometric:before{inset:15px;border:4px double #295144;outline:1px solid #bd9b5d;outline-offset:4px}.notice.geometric .floral-art{display:none}.notice.minimal:before{inset:14px;border:1px solid #7c8781}.notice.minimal .floral-art{display:none}.notice.minimal .bottomnote{padding-top:18px}.notice.minimal .community-card{border-radius:2px;box-shadow:none}
+    /* Bingkai foto: lingkaran polos, oval berbunga, kotak berbunga, oval garis ganda. */
+    .photo-wrap{position:relative;margin:12px auto 8px;width:fit-content}
+    .photo-wrap.hidden{display:none}
+    .pf-orn{position:absolute;pointer-events:none;color:#7c8a80;display:none}
+    .pfStyle-polos{padding:0}
+    .pfStyle-polos .photo-frame{margin:0}
+    .pfStyle-ovalBunga{padding:0}
+    .pfStyle-ovalBunga .photo-frame{margin:0;width:136px;height:158px;border-radius:50%;border:2.5px solid #7c8a80}
+    .pfStyle-ovalBunga .pf-top{display:block;top:-26px;left:50%;transform:translateX(-50%);width:112px;height:48px}
+    .pfStyle-ovalBunga .pf-bottom{display:block;bottom:-14px;left:50%;transform:translateX(-50%);width:88px;height:29px}
+    .pfStyle-kotakBunga{padding:2px}
+    .pfStyle-kotakBunga .photo-frame{margin:0;width:136px;height:158px;border-radius:6px;border:2px solid #7c8a80}
+    .pfStyle-kotakBunga .pf-c-tl,.pfStyle-kotakBunga .pf-c-tr,.pfStyle-kotakBunga .pf-c-bl,.pfStyle-kotakBunga .pf-c-br{display:block;width:38px;height:38px}
+    .pfStyle-kotakBunga .pf-c-tl{top:-10px;left:-10px}
+    .pfStyle-kotakBunga .pf-c-tr{top:-10px;right:-10px;transform:scaleX(-1)}
+    .pfStyle-kotakBunga .pf-c-bl{bottom:-10px;left:-10px;transform:scaleY(-1)}
+    .pfStyle-kotakBunga .pf-c-br{bottom:-10px;right:-10px;transform:scale(-1,-1)}
+    .pfStyle-ovalGaris{padding:2px}
+    .pfStyle-ovalGaris .photo-frame{margin:0;width:136px;height:157px;border-radius:50%;border:1.5px solid #7c8a80;box-shadow:0 0 0 3px var(--paper),0 0 0 4.5px #7c8a80}
+    /* Saat foto tampil, jarak antarbagian dirapatkan agar tetap 1 halaman A4 (12 pt). */
+    .notice:has(.photo-wrap:not(.hidden)) .photo-wrap{margin:6px auto 4px}
+    .notice:has(.photo-wrap:not(.hidden)) .deceased-name{margin:7px 0 5px}
+    .notice:has(.photo-wrap:not(.hidden)) .subtitle{margin-bottom:5px}
+    .notice:has(.photo-wrap:not(.hidden)) .meta{margin:4px 0 8px}
+    .notice:has(.photo-wrap:not(.hidden)) .schedule{margin:5px auto 7px}
+    .notice:has(.photo-wrap:not(.hidden)) .address-block{margin:.25em auto .35em}
+    .notice:has(.photo-wrap:not(.hidden)) .bodytext{margin:6px 0}
+    .notice:has(.photo-wrap:not(.hidden)) .closing{margin:6px auto 12px}
+    .notice:has(.photo-wrap:not(.hidden)) .family-title{margin:6px 0}
+    .notice:has(.photo-wrap:not(.hidden)) .family-list{line-height:1.58}
+    .notice:has(.photo-wrap:not(.hidden)) .bottomnote{padding-top:4px}
+    .notice:has(.photo-wrap:not(.hidden)) .app-credit{margin-top:2px}
+    .notice.sulurHijau .pf-orn{color:#16a34a}
+    .notice.sulurUngu .pf-orn{color:#7c3aed}
+    @media(max-width:560px){.pfStyle-ovalBunga .photo-frame,.pfStyle-kotakBunga .photo-frame,.pfStyle-ovalGaris .photo-frame{width:106px;height:126px}.pfStyle-ovalBunga .pf-top{width:92px;height:40px;top:-22px}.pfStyle-ovalBunga .pf-bottom{width:72px;height:24px;bottom:-12px}.pfStyle-kotakBunga .pf-c-tl,.pfStyle-kotakBunga .pf-c-tr,.pfStyle-kotakBunga .pf-c-bl,.pfStyle-kotakBunga .pf-c-br{width:30px;height:30px}}
+    /* Logo aplikasi di bilah atas */
+    /* Logo: outline mengikuti bentuk ikon + bayangan gelap presisi (mengikuti alpha). */
+    .brandlogo{width:42px;height:42px;display:block;filter:drop-shadow(0 2px 3px #10241c66) drop-shadow(0 6px 14px #10241c4d)}
+    /* Responsif lintas layar */
+    @media screen and (max-width:920px){.layout{grid-template-columns:1fr;padding:16px}.preview-panel{position:static}.sheet-wrap{padding:14px}}
+    @media screen and (max-width:560px){.topbar{flex-wrap:wrap;padding:14px 16px}.layout{padding:12px}.panel{border-radius:14px}.formbody{padding:14px 14px 18px}.preview-head{padding:12px 14px;flex-wrap:wrap;row-gap:8px}}
+    /* Sentuhan dinamis: transisi halus */
+    .btn{transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px #7c3aed26}
+    .btn:active{transform:translateY(0);box-shadow:none}
+    .radio-card{transition:border-color .15s,background .15s}
+    .install{transition:background .15s}
+    .install:hover{background:#ffffff24}
+    /* Gaya “sulur bunga”: bingkai botani estetik dengan warna cerah (hijau / ungu). */
+    .vine-art{display:none;position:absolute;z-index:0;pointer-events:none;opacity:.88}
+    .notice.sulurHijau .vine-art,.notice.sulurUngu .vine-art{display:block}
+    .va-tl{top:13px;left:13px;width:132px;height:132px}
+    .va-tr{top:13px;right:13px;width:132px;height:132px;transform:scaleX(-1)}
+    .va-bl{bottom:13px;left:13px;width:132px;height:132px;transform:scaleY(-1)}
+    .va-br{bottom:13px;right:13px;width:132px;height:132px;transform:scale(-1,-1)}
+    .va-top{top:-1px;left:50%;transform:translateX(-50%);width:116px;height:52px;background:var(--paper)}
+    .notice.sulurHijau:before{border-color:#16a34a;border-width:2.5px}
+    .notice.sulurHijau:after{content:"";position:absolute;inset:17px;border:1px solid #16a34a59;pointer-events:none}
+    .notice.sulurHijau{background:linear-gradient(180deg,#f2fbf5 0%,#fff 24%)}
+    .notice.sulurHijau .photo-frame{border-color:#9fdcba}
+    .notice.sulurHijau .community-card{border-color:#16a34a66}
+    .notice.sulurHijau .vine-art{color:#16a34a}
+    .notice.sulurUngu:before{border-color:#7c3aed;border-width:2.5px}
+    .notice.sulurUngu:after{content:"";position:absolute;inset:17px;border:1px solid #7c3aed59;pointer-events:none}
+    .notice.sulurUngu{background:linear-gradient(180deg,#f7f4ff 0%,#fff 24%)}
+    .notice.sulurUngu .photo-frame{border-color:#cdbdfb}
+    .notice.sulurUngu .community-card{border-color:#7c3aed66}
+    .notice.sulurUngu .vine-art{color:#7c3aed}
+    @media(max-width:560px){.va-tl,.va-tr,.va-bl,.va-br{width:88px;height:88px}.va-top{width:88px;height:40px}}
+    @media(max-width:560px){.geo-art{width:82px;height:82px}.geo-tl,.geo-bl{left:12px}.geo-tr,.geo-br{right:12px}.preview-head>div:first-child,.preview-head>div:last-child{width:100%}.preview-head>div:last-child button{flex:1}.preview-head span{font-size:10px}}
+    @media(min-width:951px){.layout{height:calc(100vh - 120px);min-height:580px;align-items:stretch}.layout>.panel{height:100%}.preview-panel{display:flex;flex-direction:column;min-height:0}.sheet-wrap{flex:1;min-height:0;overflow:auto}}
+    @media(max-width:950px){.layout{height:auto;min-height:0}.layout>.panel{height:auto}.preview-panel{display:block}}
+    @media print{.layout{height:auto;min-height:0}.layout>.panel{height:auto}.preview-panel{display:block}.sheet-wrap{flex:none;min-height:0}}
+
+    .quick-actions{display:flex;gap:8px;margin-top:10px}.quick-actions .btn{padding:8px 11px;font-size:12px}.heading-stack{display:flex;flex-direction:column;align-items:center}.heading-stack .bismillah{order:1}.heading-stack .headline{order:2}.heading-stack .subtitle{order:3}.heading-stack .jv-title{display:none;order:0;font-size:24px;font-weight:900;text-decoration:underline;text-underline-offset:4px;margin:4px 0 10px}.notice.jvMode .heading-stack .jv-title{display:block;order:1}.notice.jvMode .heading-stack .headline{order:2;text-transform:none}.notice.jvMode .heading-stack .bismillah{order:3;font-style:italic}.notice.jvMode .heading-stack .subtitle{order:4}.jv-funeral-title{font-size:13px;font-weight:750;font-style:italic;margin:6px 0 2px}
+    .notice.fixedMode .heading-stack .jv-title{display:block;order:0}
+    .notice.fixedMode .heading-stack .bismillah{order:1;font-style:italic}
+    .notice.fixedMode .heading-stack .headline{order:2;text-transform:none}
+    .notice.fixedMode .heading-stack .subtitle{order:3}
+    .notice.fixedMode.islam .heading-stack .headline{order:1}
+    .notice.fixedMode.islam .heading-stack .bismillah{order:2}
+    .notice.font-photo{font-family:Arial,Helvetica,sans-serif}.notice.font-serif{font-family:Georgia,'Times New Roman',serif}.notice.font-trebuchet{font-family:'Trebuchet MS',Arial,sans-serif}.notice.font-book{font-family:Cambria,Georgia,serif}
+    /* The chosen point size is the body size; headings keep their hierarchy. */
+    .notice{--notice-font-size:12pt;font-size:var(--notice-font-size);align-self:flex-start;flex-shrink:0}
+    .notice .content{overflow-wrap:break-word}
+    .notice .bismillah,.notice .subtitle,.notice .meta,.notice .bodytext,
+    .notice .schedule,.notice .closing,.notice .family-title,.notice .family-list,
+    .notice .contributors,.notice .jv-funeral-title{font-size:var(--notice-font-size)}
+    .notice .headline{font-size:calc(var(--notice-font-size) * 1.7)}
+    .notice .deceased-name{font-size:calc(var(--notice-font-size) * 1.85)}
+    .notice.classic .headline{font-size:calc(var(--notice-font-size) * 1.5)}
+    .notice.classic .deceased-name{font-size:calc(var(--notice-font-size) * 1.7)}
+    .notice .heading-stack .jv-title{font-size:calc(var(--notice-font-size) * 1.65)}
+    .notice .familyTitleOut{width:min(100%,440px);margin:16px auto 8px;text-align:left;line-height:1.5;text-decoration-line:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;break-after:avoid;page-break-after:avoid}
+    .notice .family-row{grid-template-columns:minmax(0,1fr) 5.5em;column-gap:.8em}
+    .notice .community-card{min-width:0;max-width:100%}
+    /* Shared columns keep age, death information, and the funeral schedule aligned. */
+    .notice .info-list{width:min(100%,34em);max-width:100%;margin-inline:auto;text-align:left;line-height:1.55;font-weight:500}
+    .notice .info-row{display:grid;grid-template-columns:minmax(0,min(9.5em,42%)) .65em minmax(0,1fr);column-gap:.3em;align-items:baseline;padding-block:.18em}
+    .notice .info-label,.notice .info-colon{font-weight:700;min-width:0}
+    .notice .info-colon{text-align:center}
+    .notice .info-value{min-width:0;font-weight:500;overflow-wrap:anywhere;white-space:pre-line;font-variant-numeric:tabular-nums}
+    .notice .info-row[hidden],.notice .info-list[hidden]{display:none}
+    /* “Saking griya dhuhkita:” — departure from the mourning house, after the schedule. */
+    .notice .address-block{display:block;text-align:center;margin:.45em auto .55em;max-width:34em;line-height:1.5}
+    .notice .address-block[hidden]{display:none}
+    .notice .address-label{display:block;font-weight:700;font-style:italic;margin-bottom:.1em}
+    .notice .address-value{display:block;font-weight:500;white-space:pre-line;overflow-wrap:break-word}
+    /* Narrow screens: one column per row so short labels and values are never squeezed. */
+    @media (max-width:560px){
+      .notice .info-row{grid-template-columns:minmax(0,1fr);column-gap:0;row-gap:.05em;margin-block:.15em}
+      .notice .info-colon{display:none}
+      .notice .info-label{line-height:1.3}
+      .notice .info-value{padding-left:1.05em;line-height:1.5}
+      .notice .family-row{grid-template-columns:minmax(0,1fr);row-gap:.1em}
+      .notice .family-row .rel{padding-left:1.05em;opacity:.95}
+      .notice .headline{font-size:calc(var(--notice-font-size) * 1.3)}
+      .notice .deceased-name{font-size:calc(var(--notice-font-size) * 1.35)}
+      .notice.classic .headline{font-size:calc(var(--notice-font-size) * 1.25)}
+      .notice.classic .deceased-name{font-size:calc(var(--notice-font-size) * 1.3)}
+      .notice .heading-stack .jv-title{font-size:calc(var(--notice-font-size) * 1.35)}
+      .notice .bodytext{text-align:left}
+      .notice .closing{font-size:calc(var(--notice-font-size) * .92)}
+      .notice .headline,.notice .deceased-name,.notice .heading-stack .jv-title,.notice .closing,.notice .subtitle,.notice .bismillah,.notice .jv-funeral-title,.notice .community-neighborhood,.notice .community-details{overflow-wrap:break-word}
+    }
+    @media print{
+      /* Do not shrink the chosen size or clip long notices at the A4 boundary. */
+      .panel,.sheet-wrap{overflow:visible}
+      .sheet-wrap{display:block}
+      .notice{display:block;height:auto;min-height:297mm;overflow:visible}
+      .notice .content{transform:none}
+      .notice .family-row,.notice .info-row,.notice .community-card{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+<header class="topbar"><div class="brand"><img class="brandlogo" src="logo.png" alt="Logo Lelayu RT/RW"><div><h1>Lelayu RT/RW</h1><p>Pembuat pengumuman duka · bisa digunakan offline</p></div></div><a class="install" href="docs/Buku-Panduan-Lelayu-RT-RW.pdf" target="_blank" rel="noopener" style="text-decoration:none;margin-right:8px">📖 Panduan</a><button class="install" id="installBtn" hidden>Pasang aplikasi</button></header>
+<main class="layout">
+  <section class="panel form-panel">
+    <div class="panelhead"><h2>Data pengumuman</h2><p>Isi informasi di bawah. Pratinjau akan diperbarui otomatis.</p><div class="quick-actions"><button type="button" class="btn btn-secondary" id="sampleBtn">Isi data contoh</button><button type="button" class="btn btn-secondary" id="clearBtn">Hapus contoh</button></div></div>
+    <div class="formbody">
+      <div class="section-title">Tampilan & agama</div>
+      <div class="field"><label for="style">Gaya bingkai</label><select id="style"><option value="floral">Bunga klasik (seperti contoh)</option><option value="classic">Bingkai klasik berornamen</option><option value="geometric">Geometri Islami</option><option value="minimal">Minimalis bersih</option><option value="sulurHijau">Sulur bunga — hijau terang</option><option value="sulurUngu">Sulur bunga — ungu terang</option></select></div>
+      <div class="field"><label for="fontStyle">Jenis tulisan</label><select id="fontStyle"><option value="photo">Sans-serif mirip foto</option><option value="serif">Serif formal</option><option value="trebuchet">Sans humanis</option><option value="book">Gaya buku klasik</option></select><p class="hint">Font bawaan perangkat, tetap tampil tanpa internet. “Sans-serif mirip foto” paling mendekati contoh.</p></div>
+      <div class="field"><label for="fontSize">Ukuran tulisan (pt)</label><select id="fontSize" aria-describedby="fontSizeHint"><option value="10">10 pt</option><option value="12" selected>12 pt</option><option value="15">15 pt</option><option value="20">20 pt</option></select><p class="hint" id="fontSizeHint">Ukuran teks isi kartu. Judul dan nama mengikuti proporsi agar tetap menonjol. Berlaku pada cetak/PDF; teks besar atau panjang dapat menjadi lebih dari satu halaman A4.</p></div>
+      <div class="field"><label for="language">Bahasa pengumuman</label><select id="language"><option value="id">Bahasa Indonesia</option><option value="jv">Basa Jawa (krama)</option></select></div>
+      <div class="field"><label for="religion">Agama / ucapan</label><select id="religion"><option value="islam">Islam</option><option value="christian">Kristen</option><option value="other">Non-Muslim (tanpa simbol agama)</option></select><p class="hint" id="wordingHint" aria-live="polite">Salam dan kalimat pembuka otomatis mengikuti agama serta bahasa. Data pribadi dan jadwal tetap diisi sendiri.</p></div>
+      <div class="field"><label>Foto almarhum/almarhumah</label><div class="radio-row"><label class="radio-card"><input type="radio" name="photoMode" value="yes"> Pakai foto</label><label class="radio-card"><input type="radio" name="photoMode" value="no" checked> Tanpa foto</label></div><div class="photo-box" id="photoBox" style="margin-top:9px"><input type="file" id="photo" accept="image/*"><div class="field" style="margin:10px 0 0"><label for="photoFrame">Bingkai foto</label><select id="photoFrame"><option value="polos">Lingkaran polos</option><option value="ovalBunga">Oval berbunga</option><option value="kotakBunga">Kotak berbunga</option><option value="ovalGaris">Oval garis ganda</option></select><p class="hint">Seperti bingkai foto almarhum pada kartu duka: oval dengan rangkaian bunga, kotak berbunga di sudut, dll.</p></div><p class="hint">Foto hanya tersimpan di perangkat ini.</p></div></div>
+      <div class="section-title">Identitas</div>
+      <div class="field"><label for="greeting">Salam pembuka</label><input id="greeting" value="" placeholder="Assalamu’alaikum Warahmatullahi Wabarakaatuh"></div>
+      <div class="field"><label for="headline">Kalimat utama</label><input id="headline" value="" placeholder="Innalillahi Wa Inna Ilaihi Roji’un"></div>
+      <div class="field"><label for="intro">Pengantar</label><textarea id="intro" placeholder="Tuliskan pengantar pengumuman duka"></textarea></div>
+      <div class="field"><label for="name">Nama lengkap almarhum/almarhumah</label><input id="name" value="" placeholder="Nama lengkap almarhum/almarhumah"></div>
+      <div class="field"><label for="age">Usia</label><input id="age" value="" placeholder="Contoh: 78 tahun"></div>
+      <div class="section-title">Keterangan wafat</div>
+      <p class="hint" style="margin:-4px 0 10px">Waktu dan tempat wafat ditampilkan di atas “Pamethaking layon kaangkah:” (jadwal pemakaman), bukan sebagai jadwal pemakaman.</p>
+      <div class="grid2"><div class="field"><label for="death">Hari, tanggal wafat</label><input id="death" value="" placeholder="Contoh: Minggu, 15 November 2026"></div><div class="field"><label for="deathTime">Pukul wafat</label><input id="deathTime" value="" placeholder="Contoh: 22.30 WIB"></div></div>
+      <div class="field"><label for="deathPlace">Tempat wafat (rumah / rumah sakit / lainnya)</label><input id="deathPlace" value="" placeholder="Nama rumah sakit atau rumah beserta alamat" aria-describedby="deathPlaceHint"><p class="hint" id="deathPlaceHint">Isi lokasi saat wafat. Lokasi ini terpisah dari rumah duka dan tempat pemakaman.</p></div>
+      <div class="field"><label for="address">Alamat rumah duka</label><input id="address" value="" placeholder="Alamat rumah duka / keluarga"><p class="hint">Muncul setelah jadwal pemakaman sebagai keterangan keberangkatan: <b>Saking griya dhuhkita:</b> (Basa Jawa) / <b>Dari rumah duka:</b> (Indonesia), lalu alamatnya di bawah.</p></div>
+      <div class="section-title">Pemakaman / ibadah</div>
+      <div class="grid2"><div class="field"><label for="day">Hari, tanggal</label><input id="day" value="" placeholder="Contoh: Senin, 1 April 2026"></div><div class="field"><label for="time">Pukul</label><input id="time" value="" placeholder="Contoh: 13.00 WIB"></div></div>
+      <div class="field"><label for="venueLabel">Label lokasi</label><input id="venueLabel" value="" placeholder="Contoh: Tempat"></div>
+      <div class="field"><label for="venue">Lokasi pemakaman / tempat ibadah</label><input id="venue" value="" placeholder="Nama tempat pemakaman / ibadah"></div>
+      <div class="field"><label for="details">Keterangan keberangkatan</label><textarea id="details" placeholder="Tulis keterangan keberangkatan atau prosesi"></textarea></div>
+      <div class="field"><label for="extra">Pesan tambahan (opsional)</label><textarea id="extra" placeholder="Kosongkan untuk memakai doa/pesan baku sesuai agama"></textarea><p class="hint">Jika kosong, pesan baku sesuai agama digunakan. Isi kolom ini jika ingin menggantinya dengan pesan keluarga.</p></div>
+      <div class="section-title">Identitas lingkungan</div>
+      <p class="hint" style="margin:-4px 0 10px">Bisa disesuaikan dengan nama kampung, RT/RW, kelurahan, dan kota.</p>
+      <div class="grid2"><div class="field"><label for="neighborhood">Kampung / lingkungan</label><input id="neighborhood" value="" placeholder="Contoh: Margerejo"></div><div class="field"><label for="rtRw">RT / RW</label><input id="rtRw" value="" placeholder="Contoh: RT 01/RW 04"></div></div>
+      <div class="grid2"><div class="field"><label for="ward">Kelurahan / desa</label><input id="ward" value="" placeholder="Contoh: Banjarsari"></div><div class="field"><label for="city">Kota / kabupaten</label><input id="city" value="" placeholder="Contoh: Surakarta"></div></div>
+      <div class="section-title">Keluarga</div>
+      <div class="field"><label for="familyTitle">Judul keluarga</label><input id="familyTitle" value="" placeholder="Contoh: Kami yang berduka cita:"></div>
+      <div class="field"><label for="family">Nama dan hubungan (satu per baris, pisahkan dengan |)</label><textarea id="family" placeholder="Satu keluarga per baris, pisahkan nama dan hubungan dengan |"></textarea></div>
+      <div class="field"><label for="supportersTitle">Judul turut berduka (opsional)</label><input id="supportersTitle" value="" placeholder="Contoh: Turut berduka cita:"></div>
+      <div class="field"><label for="supporters">Keluarga/instansi (satu per baris)</label><textarea id="supporters" placeholder="Satu nama keluarga/instansi per baris"></textarea></div>
+      <div class="field"><label for="closing">Salam penutup</label><input id="closing" value="" placeholder="Wassalamu’alaikum Warahmatullahi Wabarakaatuh"></div>
+      <div class="actions"><button class="btn btn-primary" id="printBtn">Cetak / Simpan PDF</button></div>
+    </div>
+  </section>
+  <section class="panel preview-panel">
+    <div class="preview-head"><div><strong>Pratinjau pengumuman</strong><br><span>Ukuran A4 · WhatsApp akan meminta Anda memilih chat/grup lalu menekan Kirim.</span></div><div style="display:flex;gap:8px;align-items:center"><button class="btn btn-secondary" id="copyBtn">Salin teks</button><button class="btn btn-primary" id="whatsappBtn">Kirim ke WhatsApp</button></div></div>
+    <div class="sheet-wrap"><article class="notice islam" id="notice"><svg class="geo-art geo-tl" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
+    <svg class="geo-art geo-tr" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
+    <svg class="geo-art geo-bl" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
+    <svg class="geo-art geo-br" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <g id="vineCorner" fill="none" stroke="currentColor" stroke-linecap="round">
+        <path d="M16 64 C16 32 32 16 64 16" stroke-width="2.2" opacity=".55"/>
+        <path d="M27 68 C27 41 41 27 68 27" stroke-width="1.4" opacity=".3"/>
+        <path d="M38 38 C60 44 76 60 82 84 C86 100 98 112 116 116" stroke-width="2.6"/>
+        <path d="M38 38 C44 60 60 76 84 82" stroke-width="1.8" opacity=".65"/>
+        <path d="M116 116 C130 112 140 120 136 132 C132 141 120 140 118 131" stroke-width="2.2"/>
+        <path d="M38 38 C30 46 28 56 33 64" stroke-width="1.6" opacity=".6"/>
+        <g fill="currentColor" stroke="none">
+          <path d="M56 46 C64 36 78 34 86 40 C78 50 64 52 56 46Z" opacity=".9"/>
+          <path d="M46 56 C36 64 34 78 40 86 C50 78 52 64 46 56Z" opacity=".75"/>
+          <path d="M82 72 C90 62 104 60 112 66 C104 76 90 78 82 72Z" opacity=".85"/>
+          <path d="M72 82 C62 90 60 104 66 112 C76 104 78 90 72 82Z" opacity=".7"/>
+          <path d="M104 100 C112 92 124 91 130 96 C124 105 112 106 104 100Z" opacity=".8"/>
+          <circle cx="22" cy="78" r="2.6" opacity=".55"/>
+          <circle cx="78" cy="22" r="2.6" opacity=".55"/>
+          <circle cx="52" cy="52" r="2.2" opacity=".5"/>
+        </g>
+      </g>
+      <g id="pfFlower" fill="currentColor" stroke="none">
+        <ellipse cx="30" cy="17" rx="6.5" ry="11"/>
+        <ellipse cx="30" cy="43" rx="6.5" ry="11"/>
+        <ellipse cx="17" cy="30" rx="11" ry="6.5"/>
+        <ellipse cx="43" cy="30" rx="11" ry="6.5"/>
+        <circle cx="30" cy="30" r="5" fill="#fff" opacity=".9"/>
+      </g>
+      <g id="pfCluster">
+        <use href="#pfFlower" transform="translate(35 1)"/>
+        <use href="#pfFlower" transform="translate(1 15) scale(.6)"/>
+        <use href="#pfFlower" transform="translate(94 15) scale(.6)"/>
+        <path d="M33 46 C25 52 15 54 5 51 C14 45 25 44 33 46Z" fill="currentColor" opacity=".7"/>
+        <path d="M97 46 C105 52 115 54 125 51 C116 45 105 44 97 46Z" fill="currentColor" opacity=".7"/>
+      </g>
+      <g id="pfLeaves" fill="currentColor" stroke="none">
+        <path d="M55 6 C40 10 28 20 24 34 C40 32 52 22 55 6Z" opacity=".75"/>
+        <path d="M55 6 C70 10 82 20 86 34 C70 32 58 22 55 6Z" opacity=".75"/>
+        <circle cx="55" cy="5" r="3" opacity=".9"/>
+      </g>
+      <g id="pfCorner">
+        <use href="#pfFlower" transform="scale(.9)"/>
+        <path d="M52 12 C46 22 42 34 42 47 C51 40 55 27 52 12Z" fill="currentColor" opacity=".55"/>
+        <path d="M12 52 C22 46 34 42 47 42 C40 51 27 55 12 52Z" fill="currentColor" opacity=".55"/>
+      </g>
+      <g id="vineCrest" fill="none" stroke="currentColor" stroke-linecap="round">
+        <path d="M60 8 C52 16 52 26 60 32 C68 26 68 16 60 8Z" fill="currentColor" stroke="none" opacity=".95"/>
+        <path d="M48 24 C38 18 26 20 18 28 C28 31 40 29 48 24Z" fill="currentColor" stroke="none" opacity=".7"/>
+        <path d="M72 24 C82 18 94 20 102 28 C92 31 80 29 72 24Z" fill="currentColor" stroke="none" opacity=".7"/>
+        <path d="M54 32 C46 38 40 46 38 50" stroke-width="1.6" opacity=".6"/>
+        <path d="M66 32 C74 38 80 46 82 50" stroke-width="1.6" opacity=".6"/>
+        <circle cx="60" cy="4" r="2.2" fill="currentColor" stroke="none" opacity=".6"/>
+      </g>
+    </defs></svg>
+    <svg class="vine-art va-tl" viewBox="0 0 160 160" aria-hidden="true"><use href="#vineCorner"/></svg>
+    <svg class="vine-art va-tr" viewBox="0 0 160 160" aria-hidden="true"><use href="#vineCorner"/></svg>
+    <svg class="vine-art va-bl" viewBox="0 0 160 160" aria-hidden="true"><use href="#vineCorner"/></svg>
+    <svg class="vine-art va-br" viewBox="0 0 160 160" aria-hidden="true"><use href="#vineCorner"/></svg>
+    <svg class="vine-art va-top" viewBox="0 0 120 52" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#vineCrest"/></svg>
+    <div class="content">
+      <div class="heading-stack"><div class="jv-title" id="jvTitle">LELAYU</div><div class="bismillah" id="greetingOut" data-out="greeting"></div><div class="headline" id="headlineOut" data-out="headline"></div><div class="subtitle" id="introOut" data-out="intro"></div></div>
+      <div class="deceased-name" data-out="name"></div><div class="symbol hidden" id="cross" aria-label="Salib Kristen">✝</div>
+      <div class="photo-wrap pfStyle-polos" id="photoWrap"><svg class="pf-orn pf-top" viewBox="0 0 130 56" aria-hidden="true"><use href="#pfCluster"/></svg><svg class="pf-orn pf-bottom" viewBox="0 0 110 36" aria-hidden="true"><use href="#pfLeaves"/></svg><svg class="pf-orn pf-c-tl" viewBox="0 0 60 60" aria-hidden="true"><use href="#pfCorner"/></svg><svg class="pf-orn pf-c-tr" viewBox="0 0 60 60" aria-hidden="true"><use href="#pfCorner"/></svg><svg class="pf-orn pf-c-bl" viewBox="0 0 60 60" aria-hidden="true"><use href="#pfCorner"/></svg><svg class="pf-orn pf-c-br" viewBox="0 0 60 60" aria-hidden="true"><use href="#pfCorner"/></svg><div class="photo-frame" id="photoFrameBox"><span id="photoPlaceholder">✿</span><img id="photoPreview" alt="Foto almarhum" hidden></div></div>
+      <div class="meta info-list" id="personalInfoOut">
+        <div class="info-row meta-age" data-info="age"></div>
+        <div id="deathDetails" role="group" aria-label="Keterangan waktu dan tempat wafat">
+          <div class="info-row meta-death" data-info="death"></div>
+          <div class="info-row meta-death-time" data-info="deathTime"></div>
+          <div class="info-row meta-death-place" data-info="deathPlace"></div>
+        </div>
+      </div>
+      <div class="jv-funeral-title" style="display:none">Pamethaking layon kaangkah:</div><div class="schedule info-list" role="group" aria-label="Jadwal pemakaman atau ibadah">
+        <div class="info-row"><span class="info-label" id="dayLabel">Hari</span><span class="info-colon">:</span><span class="info-value meta-day"></span></div>
+        <div class="info-row"><span class="info-label" id="timeLabel">Pukul</span><span class="info-colon">:</span><span class="info-value meta-time"></span></div>
+        <div class="info-row"><span class="info-label venue-label"></span><span class="info-colon">:</span><span class="info-value meta-venue"></span></div>
+      </div>
+      <div class="address-block" id="addressOut" hidden><span class="address-label"></span><span class="address-value"></span></div>
+      <p class="bodytext details" hidden></p>
+      <p class="bodytext extra" hidden></p><div class="closing" id="closingOut"></div><div class="family-title familyTitleOut"></div><div class="family-list" id="familyOut"></div><div class="family-title supportersTitleOut"></div><div class="contributors"><ol id="supportersOut"></ol></div>
+      <div class="bottomnote" id="bottomNote"><div class="community-card"><strong class="community-neighborhood"></strong><span class="community-details"></span></div><div class="app-credit" id="appCredit"></div></div>
+    </div></article></div>
+  </section>
+</main><div class="toast" id="toast">Tersalin</div>
+<script>
+const $=id=>document.getElementById(id);let photoData='';
+const defaults={style:'floral',fontStyle:'photo',fontSize:'12',photoFrame:'polos',religion:'islam',language:'id',greeting:'',headline:'',intro:'',name:'',death:'',deathTime:'',deathPlace:'',address:'',age:'',details:'',day:'',time:'',venueLabel:'',venue:'',neighborhood:'',rtRw:'',ward:'',city:'',extra:'',familyTitle:'',family:'',supportersTitle:'',supporters:'',closing:''};
+const sampleData={religion:'islam',language:'jv',name:'ALM. BP. PURNOMO',death:'Minggu, 15 November 2026',deathTime:'22.30 WIB',deathPlace:'Rumah Margorejo RT 01/RW 04 Banyuanyar, Banjarsari - Surakarta',address:'Rumah Margorejo RT 01/RW 04 Banyuanyar, Banjarsari - Surakarta',age:'61 Tahun',day:'Senin, 16 November 2026',time:'13.00 WIB',venue:'Tanon Lor - Gedongan',neighborhood:'Margorejo',rtRw:'RT 01/RW 04',ward:'Banyuanyar, Banjarsari',city:'Surakarta',familyTitle:'Ingkang Nandang Dhuhkita:',family:'Ummi Purwati | Istri\nDimas Iqbal Maulana | Anak\nDhifa Anindya Putri | Anak\nPratama Anmas Dinanta | Cucu'};
+const jvFixed={title:'LELAYU',headline:'Innalillahi wa inna ilaihi raji’un',greeting:'Assalamu’alaikum Warahmatullahi Wabarakaatuh',intro:'Sampun kapundhut sowan wonten ngarsanipun Gusti Allah Ingkang Maha Agung kanthi tentrem, jalaran gerah sakwetawis wekdal:',funeralTitle:'Pamethaking layon kaangkah:',apology:'Nglenggana hambok bilih rikala sugengipun almarhum hanggadahi kalepatan dhumateng panjenengan sedaya, keparenga kula sakulawarga ingkang nyuwunaken pangapunten.',closing:'Wassalamu’alaikum Warahmatullahi Wabarakaatuh'};
+const wordingTemplates={
+  id:{
+    islam:{
+      title:'LELAYU',
+      headline:jvFixed.headline,
+      greeting:jvFixed.greeting,
+      intro:'Telah dipanggil ke hadirat Allah SWT, anggota keluarga kami yang tercinta:',
+      funeralTitle:'Pemakaman akan dilaksanakan pada:',
+      apology:'Kami sekeluarga memohon maaf atas segala kesalahan beliau semasa hidupnya. Semoga Allah SWT menerima amal ibadahnya, mengampuni segala dosanya, serta memberikan ketabahan kepada keluarga yang ditinggalkan.',
+      closing:'Wassalamu’alaikum Warahmatullahi Wabarakaatuh'
+    },
+    christian:{
+      title:'BERITA DUKA CITA',
+      headline:'Telah berpulang ke rumah Bapa di surga',
+      greeting:'Shalom, damai sejahtera dalam kasih Tuhan Yesus Kristus.',
+      intro:'Dengan iman dan pengharapan kepada Tuhan Yesus Kristus, kami sekeluarga menyampaikan bahwa anggota keluarga kami yang terkasih telah berpulang:',
+      funeralTitle:'Ibadah penghiburan dan pemakaman akan dilaksanakan pada:',
+      apology:'Kami sekeluarga memohon maaf atas segala kesalahan beliau semasa hidupnya. Kiranya Tuhan memberikan penghiburan dan kekuatan bagi keluarga yang ditinggalkan.',
+      closing:'Tuhan Yesus memberkati. Shalom.'
+    }
+  },
+  jv:{
+    islam:jvFixed,
+    christian:{
+      title:'LELAYU',
+      headline:'Sampun kondur dhumateng dalemipun Rama ing swarga',
+      greeting:'Shalom, tentrem rahayu wonten ing sih katresnanipun Gusti Yesus Kristus.',
+      intro:'Kanthi pitados saha pangajeng-ajeng dhumateng Gusti Yesus Kristus, kula sakulawarga ngaturaken pawartos bilih kulawarga ingkang kula tresnani sampun kondur dhumateng ngarsanipun Gusti:',
+      funeralTitle:'Ibadah panglipur saha pamakaman badhé katindakaken ing:',
+      apology:'Kula sakulawarga nyuwun pangapunten tumrap sedaya kalepatanipun nalika taksih gesang. Mugi Gusti paring panglipur saha kekiyatan dhumateng kulawarga ingkang dipuntilar.',
+      closing:'Gusti Yesus mberkahi. Shalom.'
+    }
+  }
+};
+const fixedWordingFields=['greeting','headline','intro','closing'];
+const ids=Object.keys(defaults);
+function val(id){return $(id).value.trim()}
+function activeWording(){return wordingTemplates[val('language')==='jv'?'jv':'id']?.[val('religion')]||null}
+function localText(id){
+  const wording=activeWording();
+  const v=val(id);
+  const jv=val('language')==='jv';
+  if(wording&&fixedWordingFields.includes(id))return wording[id];
+  if(id==='extra'&&wording){
+    if(jv&&val('religion')==='islam')return wording.apology;
+    return v||wording.apology;
+  }
+  // Old automatically inserted captions are replaced by the current template's caption.
+  if(id==='details'&&wording&&[
+    'Ibadah penghiburan dan pemakaman akan dilaksanakan pada:',
+    'Prosesi penghormatan terakhir dan pemakaman akan dilaksanakan pada:'
+  ].includes(v))return '';
+  if(id==='familyTitle'&&(!v||[
+    'Ingkang Nandang Dhuhkita:','Kulawarga ingkang nandhang sungkawa:',
+    'Kami yang berduka cita:','Keluarga yang berduka cita:'
+  ].includes(v)))return jv?'Ingkang Nandang Dhuhkita:':'Keluarga yang berduka cita:';
+  if(id==='supportersTitle'&&(!v||[
+    'Turut berduka cita:','Ingkang ndherek bela sungkawa:'
+  ].includes(v)))return jv?'Ingkang ndherek bela sungkawa:':'Turut berduka cita:';
+  return v;
+}
+// Death information and the funeral schedule have separate fields and labels.
+function noticeInfo(){
+  const jv=val('language')==='jv';
+  return [
+    {field:'age',label:jv?'Dumugi yuswa':'Dalam usia'},
+    {field:'death',label:jv?'Rikala dinten':'Wafat pada'},
+    {field:'deathTime',label:jv?'Wanci tabuh':'Pukul wafat'},
+    {field:'deathPlace',label:jv?'Wonten':'Tempat wafat'}
+  ].map(info=>({...info,value:val(info.field)}));
+}
+function funeralLabels(){
+  const jv=val('language')==='jv';
+  const jvIslam=jv&&val('religion')==='islam';
+  return {
+    day:jv?'Dinten':'Hari',
+    time:jv?'Wanci tabuh':'Pukul',
+    address:jv?'Saking griya dhuhkita':'Dari rumah duka',
+    venue:jvIslam?'Wonten ing':jv&&(!val('venueLabel')||val('venueLabel')==='Tempat')?'Papan':val('venueLabel')||'Tempat'
+  };
+}
+function render(){
+  const fontSize=['10','12','15','20'].includes(val('fontSize'))?val('fontSize'):defaults.fontSize;
+  $('fontSize').value=fontSize;
+  $('notice').style.setProperty('--notice-font-size',fontSize+'pt');
+  const religion=val('religion');
+  const jv=val('language')==='jv';
+  const jvIslam=jv&&religion==='islam';
+  const wording=activeWording();
+  $('notice').className='notice '+religion+' '+val('style')+' font-'+val('fontStyle');
+  const pf=['polos','ovalBunga','kotakBunga','ovalGaris'].includes(val('photoFrame'))?val('photoFrame'):'polos';
+  $('photoWrap').className='photo-wrap pfStyle-'+pf+(document.querySelector('input[name=photoMode]:checked').value==='no'?' hidden':'');+(wording?' fixedMode':'')+(jvIslam?' jvMode':'');
+  document.querySelectorAll('[data-out]').forEach(el=>el.textContent=localText(el.dataset.out));
+  $('jvTitle').textContent=wording?.title||'';
+  $('jvTitle').style.display=wording?.title?'block':'none';
+  $('closingOut').textContent=localText('closing');
+  [...fixedWordingFields,'extra'].forEach(id=>{
+    const field=$(id).closest('.field');
+    if(field)field.style.display=(id==='extra'?jvIslam:!!wording)?'none':'';
+  });
+  $('wordingHint').textContent=wording?
+    (religion==='islam'?'Islam':'Kristen')+' · '+(jv?'Basa Jawa':'Bahasa Indonesia')+': salam, kalimat pembuka, dan penutup memakai teks baku sesuai agama.'+(religion==='christian'?' Tanda salib ditampilkan.':'')+' Nama, waktu, lokasi, keluarga, dan keterangan prosesi tetap dapat diisi.':
+    'Tanpa simbol agama. Salam, kalimat pembuka, pesan, dan penutup dapat ditulis sendiri.';
+  if(!wording){
+    $('greeting').placeholder='Tuliskan salam pembuka (opsional)';
+    $('headline').placeholder='Contoh: Berita duka cita';
+    $('intro').placeholder='Tuliskan pengantar pengumuman duka';
+    $('closing').placeholder='Tuliskan salam penutup (opsional)';
+  }
+  const info=noticeInfo();
+  info.forEach(({field,label,value})=>{
+    const out=document.querySelector('[data-info="'+field+'"]');
+    out.innerHTML=value?'<span class="info-label">'+escapeHtml(label)+'</span><span class="info-colon">:</span><span class="info-value">'+escapeHtml(value)+'</span>':'';
+    out.hidden=!value;
+  });
+  $('personalInfoOut').hidden=!info.some(item=>item.value);
+  $('deathDetails').hidden=!['death','deathTime','deathPlace'].some(id=>val(id));
+  const labels=funeralLabels();
+  $('dayLabel').textContent=labels.day;
+  $('timeLabel').textContent=labels.time;
+  document.querySelector('.venue-label').textContent=labels.venue;
+  ['day','time','venue'].forEach(id=>{
+    const out=document.querySelector('.meta-'+id);
+    out.textContent=val(id);
+    out.closest('.info-row').hidden=!val(id);
+  });
+  document.querySelector('.schedule').hidden=!['day','time','venue'].some(id=>val(id));
+  // The mourning-house address follows the schedule, like the reference card.
+  const addressValue=val('address');
+  $('addressOut').hidden=!addressValue;
+  document.querySelector('.address-label').textContent=addressValue?labels.address+':':'';
+  document.querySelector('.address-value').textContent=addressValue;
+  const details=localText('details');
+  document.querySelector('.details').textContent=details;
+  document.querySelector('.details').hidden=!details;
+  const funeralTitle=document.querySelector('.jv-funeral-title');
+  funeralTitle.textContent=wording?.funeralTitle||'';
+  funeralTitle.style.display=wording?.funeralTitle?'block':'none';
+  document.querySelector('.familyTitleOut').textContent=localText('familyTitle');
+  document.querySelector('.supportersTitleOut').textContent=localText('supportersTitle');
+  const community=[val('rtRw'),val('ward'),val('city')].filter(Boolean);
+  document.querySelector('.community-neighborhood').textContent=val('neighborhood');
+  document.querySelector('.community-details').textContent=community.join(' · ');
+  $('bottomNote').style.display='block';
+  document.querySelector('.community-card').style.display=(val('neighborhood')||community.length)?'inline-flex':'none';
+  $('appCredit').textContent='Aplikasi Pintar Lelayu'+(val('rtRw')?' '+val('rtRw'):'');
+  const fam=val('family').split('\n').filter(Boolean);
+  $('familyOut').innerHTML=fam.map((line,i)=>{
+    let [n,r]=line.split('|').map(x=>x.trim());
+    if(val('language')==='jv')r=({'Istri':'Garwa','Anak':'Putra/Putri'}[r]||r);
+    return `<div class="family-row"><span>${i+1}. ${escapeHtml(n||'')}</span><span class="rel">${escapeHtml(r||'')}</span></div>`;
+  }).join('');
+  $('supportersOut').innerHTML=val('supporters').split('\n').filter(Boolean).map(x=>`<li>${escapeHtml(x.trim())}</li>`).join('');
+  const extra=localText('extra');
+  document.querySelector('.extra').textContent=extra;
+  document.querySelector('.extra').hidden=!extra;
+  $('cross').classList.toggle('hidden',religion!=='christian');
+  document.querySelector('.family-list').style.display=fam.length?'block':'none';
+  document.querySelector('.familyTitleOut').style.display=fam.length?'block':'none';
+  $('supportersOut').parentElement.style.display=val('supporters').trim()?'block':'none';
+  document.querySelector('.supportersTitleOut').style.display=val('supporters').trim()?'block':'none';
+  save();
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function save(){try{let d={};ids.forEach(id=>d[id]=$(id).value);d.photoData=photoData;d.photoMode=document.querySelector('input[name=photoMode]:checked').value;localStorage.setItem('lelayuDraftClean1',JSON.stringify(d))}catch(e){}}
+function load(){try{let d=JSON.parse(localStorage.getItem('lelayuDraftClean1')||'null');if(!d)return;ids.forEach(id=>{if(d[id]!==undefined)$(id).value=d[id]});photoData=d.photoData||'';if(d.photoMode){document.querySelector(`input[name=photoMode][value=${d.photoMode}]`).checked=true}showPhoto() }catch(e){}}
+function showPhoto(){let mode=document.querySelector('input[name=photoMode]:checked').value;$('photoBox').style.display=mode==='yes'?'block':'none';$('photoFrameBox').classList.toggle('hidden',mode==='no');$('photoWrap').classList.toggle('hidden',mode==='no');$('photoPreview').hidden=!photoData;if(photoData){$('photoPreview').src=photoData;$('photoPlaceholder').hidden=true}else $('photoPlaceholder').hidden=false;}
+// Religion/language changes affect only the resolved wording, never the entered data.
+document.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',render));
+document.querySelectorAll('select').forEach(el=>el.addEventListener('change',render));
+document.querySelectorAll('input[name=photoMode]').forEach(el=>el.addEventListener('change',()=>{showPhoto();render()}));$('photo').addEventListener('change',e=>{let f=e.target.files[0];if(!f)return;if(f.size>5*1024*1024){alert('Ukuran foto maksimal 5 MB.');e.target.value='';return}let reader=new FileReader();reader.onload=()=>{photoData=reader.result;showPhoto();render()};reader.readAsDataURL(f)});
+function announcementText(){
+  const jv=val('language')==='jv';
+  const wording=activeWording();
+  const labels=funeralLabels();
+  const fam=val('family').split('\n').filter(Boolean).map((line,i)=>{
+    let [n,r]=line.split('|').map(x=>x.trim());
+    if(jv)r=({'Istri':'Garwa','Anak':'Putra/Putri'}[r]||r);
+    return `${i+1}. ${n||''}${r?' — '+r:''}`;
+  });
+  const headingLines=wording?[
+    wording.title,
+    ...(val('religion')==='islam'?[localText('headline'),localText('greeting')]:[localText('greeting'),localText('headline')]),
+    localText('intro')
+  ]:[localText('greeting'),localText('headline'),localText('intro')];
+  const heading=headingLines.filter(Boolean).join('\n');
+  const info=noticeInfo().filter(item=>item.value).map(item=>item.label+': '+item.value).join('\n');
+  const funeral=[
+    wording?.funeralTitle||'',
+    val('day')&&labels.day+': '+val('day'),
+    val('time')&&labels.time+': '+val('time'),
+    val('venue')&&labels.venue+': '+val('venue'),
+    val('address')&&labels.address+': '+val('address'),
+    localText('details')
+  ].filter(Boolean).join('\n');
+  const community=[val('neighborhood'),[val('rtRw'),val('ward'),val('city')].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
+  return [
+    heading,val('name'),info,funeral,
+    localText('extra'),localText('closing'),
+    fam.length?[localText('familyTitle'),fam.join('\n')].filter(Boolean).join('\n'):'',
+    val('supporters')?[localText('supportersTitle'),val('supporters')].filter(Boolean).join('\n'):'',
+    community
+  ].filter(Boolean).join('\n\n');
+}
+$('sampleBtn').onclick=()=>{if(!confirm('Data contoh akan mengganti isian saat ini. Lanjutkan?'))return;Object.keys(defaults).forEach(id=>{if(!['style','fontStyle','fontSize'].includes(id))$(id).value=defaults[id]});Object.entries(sampleData).forEach(([id,v])=>$(id).value=v);photoData='';$('photo').value='';document.querySelector('input[name=photoMode][value=no]').checked=true;showPhoto();render()};$('clearBtn').onclick=()=>{if(!confirm('Hapus semua data yang sedang diisi?'))return;Object.keys(defaults).forEach(id=>{if(!['style','fontStyle','fontSize'].includes(id))$(id).value=defaults[id]});photoData='';$('photo').value='';document.querySelector('input[name=photoMode][value=no]').checked=true;showPhoto();render()};$('printBtn').onclick=()=>window.print();$('copyBtn').onclick=async()=>{let t=announcementText();try{await navigator.clipboard.writeText(t);toast()}catch(e){prompt('Salin teks pengumuman:',t)}};$('whatsappBtn').onclick=()=>{if(!val('name')){alert('Isi nama almarhum/almarhumah terlebih dahulu sebelum membagikan pengumuman.');$('name').focus();return}let t=announcementText();if(!t){alert('Isi informasi pengumuman terlebih dahulu.');return}window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener,noreferrer')};function toast(){$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
+load();showPhoto();render();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));let deferred;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('installBtn').hidden=false});$('installBtn').onclick=async()=>{if(deferred){deferred.prompt();deferred=null;$('installBtn').hidden=true}};
+</script>
+</body></html>
