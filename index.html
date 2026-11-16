@@ -204,7 +204,7 @@
     </div>
   </section>
   <section class="panel preview-panel">
-    <div class="preview-head"><div><strong>Pratinjau pengumuman</strong><br><span>Ukuran A4 · WhatsApp akan meminta Anda memilih chat/grup lalu menekan Kirim.</span></div><div style="display:flex;gap:8px;align-items:center"><button class="btn btn-secondary" id="copyBtn">Salin teks</button><button class="btn btn-primary" id="whatsappBtn">Kirim ke WhatsApp</button></div></div>
+    <div class="preview-head"><div><strong>Pratinjau pengumuman</strong><br><span>Ukuran A4 · 📷 Gambar / 📄 PDF menyiapkan berkas kartu lalu membuka menu berbagi (pilih WhatsApp).</span></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end"><button class="btn btn-secondary" id="copyBtn">Salin teks</button><button class="btn btn-primary" id="whatsappBtn">Kirim ke WhatsApp</button><button class="btn btn-secondary" id="waImgBtn" title="Bagikan kartu sebagai gambar (WhatsApp status/grup)">📷 Gambar</button><button class="btn btn-secondary" id="waPdfBtn" title="Bagikan kartu sebagai berkas PDF (dokumen WhatsApp)">📄 PDF</button></div></div>
     <div class="sheet-wrap"><article class="notice islam" id="notice"><svg class="geo-art geo-tl" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
     <svg class="geo-art geo-tr" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
     <svg class="geo-art geo-bl" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#295144" stroke-width="2"><path d="M5 112V20Q5 5 20 5h92M14 100V23Q14 14 23 14h77M5 76h18m-9-9 9 9-9 9m15-41 12-12 12 12-12 12-12-12Zm35 0 12-12 12 12-12 12-12-12Z"/><path d="M74 14l8 8-8 8-8-8 8-8Zm20 0 8 8-8 8-8-8 8-8ZM14 56l8 8 8-8-8-8-8 8Z"/></g></svg>
@@ -502,4 +502,148 @@ function announcementText(){
 $('sampleBtn').onclick=()=>{if(!confirm('Data contoh akan mengganti isian saat ini. Lanjutkan?'))return;Object.keys(defaults).forEach(id=>{if(!['style','fontStyle','fontSize'].includes(id))$(id).value=defaults[id]});Object.entries(sampleData).forEach(([id,v])=>$(id).value=v);photoData='';$('photo').value='';document.querySelector('input[name=photoMode][value=no]').checked=true;showPhoto();render()};$('clearBtn').onclick=()=>{if(!confirm('Hapus semua data yang sedang diisi?'))return;Object.keys(defaults).forEach(id=>{if(!['style','fontStyle','fontSize'].includes(id))$(id).value=defaults[id]});photoData='';$('photo').value='';document.querySelector('input[name=photoMode][value=no]').checked=true;showPhoto();render()};$('printBtn').onclick=()=>window.print();$('copyBtn').onclick=async()=>{let t=announcementText();try{await navigator.clipboard.writeText(t);toast()}catch(e){prompt('Salin teks pengumuman:',t)}};$('whatsappBtn').onclick=()=>{if(!val('name')){alert('Isi nama almarhum/almarhumah terlebih dahulu sebelum membagikan pengumuman.');$('name').focus();return}let t=announcementText();if(!t){alert('Isi informasi pengumuman terlebih dahulu.');return}window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank','noopener,noreferrer')};function toast(){$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
 load();showPhoto();render();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));let deferred;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('installBtn').hidden=false});$('installBtn').onclick=async()=>{if(deferred){deferred.prompt();deferred=null;$('installBtn').hidden=true}};
 </script>
+<script>
+/* ===== Bagikan gambar / PDF (WhatsApp & aplikasi lain) ===== */
+(function(){
+var A4W=794, A4H=1123, MAXH=2246;
+function collectCss(){
+  var out=[];
+  Array.prototype.forEach.call(document.styleSheets,function(ss){
+    var rules;try{rules=ss.cssRules}catch(e){return}
+    Array.prototype.forEach.call(rules,function walk(r){
+      if(r.media){if(/print/i.test(r.media.mediaText)){Array.prototype.forEach.call(r.cssRules,walk)}return}
+      var t=r.cssText||'';if(t.indexOf('@page')===0)return;
+      if(t)out.push(t);
+    });
+  });
+  return out.join('\n');
+}
+function buildSvg(scale){
+  var SVGNS='http://www.w3.org/2000/svg', XHTML='http://www.w3.org/1999/xhtml';
+  var svg=document.createElementNS(SVGNS,'svg');
+  svg.setAttribute('width',A4W*scale);svg.setAttribute('height',MAXH*scale);
+  svg.setAttribute('viewBox','0 0 '+A4W+' '+MAXH);
+  var st=document.createElementNS(SVGNS,'style');st.textContent=collectCss();svg.appendChild(st);
+  var fo=document.createElementNS(SVGNS,'foreignObject');
+  fo.setAttribute('width',A4W);fo.setAttribute('height',MAXH);
+  var div=document.createElementNS(XHTML,'div');
+  div.setAttribute('style','width:'+A4W+'px;background:#fff;font-family:'+
+    (getComputedStyle(document.body).fontFamily||'system-ui,sans-serif').replace(/"/g,"'"));
+  var defs=document.getElementById('pfCluster');
+  if(defs&&defs.closest('svg'))div.appendChild(defs.closest('svg').cloneNode(true));
+  div.appendChild(document.getElementById('notice').cloneNode(true));
+  fo.appendChild(div);svg.appendChild(fo);
+  return new XMLSerializer().serializeToString(svg);
+}
+function loadImage(svg){
+  return new Promise(function(res,rej){
+    var img=new Image();
+    img.onload=function(){res(img)};
+    img.onerror=function(){rej(new Error('gagal merender kartu'))};
+    img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  });
+}
+function contentHeight(ctx){
+  var data=ctx.getImageData(0,0,A4W,MAXH).data,bottom=-1;
+  for(var y=MAXH-1;y>=0;y--){
+    for(var x=0;x<A4W;x+=4){
+      var i=(y*A4W+x)*4;
+      if(data[i]<246||data[i+1]<246||data[i+2]<246){bottom=y;break}
+    }
+    if(bottom>=0)break;
+  }
+  return Math.max(A4H,Math.min(MAXH,bottom+12));
+}
+async function renderCard(scale){
+  var img=await loadImage(buildSvg(scale));
+  var big=document.createElement('canvas');
+  big.width=A4W*scale;big.height=MAXH*scale;
+  var bx=big.getContext('2d');
+  bx.fillStyle='#fff';bx.fillRect(0,0,big.width,big.height);
+  bx.drawImage(img,0,0);
+  var m=document.createElement('canvas');m.width=A4W;m.height=MAXH;
+  var mx=m.getContext('2d');mx.drawImage(big,0,0,A4W,MAXH);
+  var h=contentHeight(mx);
+  var c=document.createElement('canvas');
+  c.width=big.width;c.height=Math.round(h*scale);
+  var x=c.getContext('2d');
+  x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);
+  x.drawImage(big,0,0);
+  return {canvas:c,cssH:h};
+}
+function makePdf(u8,wPx,hPx,hCss){
+  var enc=new TextEncoder();
+  function S(t){return enc.encode(t)}
+  var imgHpt=595.28*hCss/A4W;
+  var pages=Math.max(1,Math.ceil((imgHpt-1)/841.89));
+  var imgNum=3+2*pages,kids=[],objs=[];
+  for(var p=0;p<pages;p++){
+    var num=3+2*p,cnum=num+1;
+    kids.push(num+' 0 R');
+    var cs='q 595.28 0 0 '+imgHpt.toFixed(2)+' 0 '+(-p*841.89).toFixed(2)+' cm /Im0 Do Q';
+    objs.push({num:num,b:S(num+' 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 '+imgNum+' 0 R >> >> /Contents '+cnum+' 0 R >>\nendobj\n')});
+    objs.push({num:cnum,b:S(cnum+' 0 obj\n<< /Length '+cs.length+' >>\nstream\n'+cs+'\nendstream\nendobj\n')});
+  }
+  var chunks=[S('%PDF-1.4\n')],pos=chunks[0].length,offs={};
+  function add(u){chunks.push(u);pos+=u.length}
+  offs[1]=pos;add(S('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n'));
+  offs[2]=pos;add(S('2 0 obj\n<< /Type /Pages /Kids ['+kids.join(' ')+'] /Count '+pages+' >>\nendobj\n'));
+  objs.forEach(function(o){offs[o.num]=pos;add(o.b)});
+  offs[imgNum]=pos;
+  add(S(imgNum+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+wPx+' /Height '+hPx+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+u8.length+' >>\nstream\n'));
+  add(u8);add(S('\nendstream\nendobj\n'));
+  var total=pos,xref='xref\n0 '+(imgNum+1)+'\n0000000000 65535 f \n';
+  for(var i=1;i<=imgNum;i++)xref+=('0000000000'+(offs[i]||0)).slice(-10)+' 00000 n \n';
+  xref+='trailer\n<< /Size '+(imgNum+1)+' /Root 1 0 R >>\nstartxref\n'+total+'\n%%EOF';
+  add(S(xref));
+  var out=new Uint8Array(chunks.reduce(function(a,c){return a+c.length},0)),o=0;
+  chunks.forEach(function(c){out.set(c,o);o+=c.length});
+  return out;
+}
+function slugName(){
+  var n=(document.getElementById('name').value||'').trim();
+  n=n.replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  return n?'-'+n.slice(0,40):'';
+}
+function toast(m,ms){
+  var t=document.getElementById('toast');if(m)t.textContent=m;
+  t.classList.add('show');clearTimeout(t._t);
+  t._t=setTimeout(function(){t.classList.remove('show')},ms||2600);
+}
+var busy=false;
+async function shareCard(kind){
+  if(busy)return;
+  if(!(document.getElementById('name').value||'').trim()){alert('Isi nama almarhum/almarhumah terlebih dahulu sebelum membagikan pengumuman.');document.getElementById('name').focus();return}
+  var btn=document.getElementById(kind==='png'?'waImgBtn':'waPdfBtn');
+  busy=true;btn.disabled=true;
+  try{
+    var res=await renderCard(kind==='pdf'?2.5:2),blob,fname;
+    if(kind==='pdf'){
+      var d=res.canvas.toDataURL('image/jpeg',0.92),bin=atob(d.split(',')[1]),u8=new Uint8Array(bin.length);
+      for(var i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+      blob=new Blob([makePdf(u8,res.canvas.width,res.canvas.height,res.cssH)],{type:'application/pdf'});
+      fname='Pengumuman-Lelayu'+slugName()+'.pdf';
+    }else{
+      blob=await new Promise(function(r){res.canvas.toBlob(r,'image/png')});
+      fname='Pengumuman-Lelayu'+slugName()+'.png';
+    }
+    var file=new File([blob],fname,{type:blob.type});
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+      await navigator.share({files:[file],title:'Pengumuman Lelayu'});
+    }else{
+      var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;
+      document.body.appendChild(a);a.click();a.remove();
+      setTimeout(function(){URL.revokeObjectURL(a.href)},5000);
+      toast('Berkas diunduh. Di WhatsApp: buka chat lalu ketuk 📎 dan pilih berkas ini.',5200);
+    }
+  }catch(e){
+    if(!e||e.name!=='AbortError'){console.error(e);toast('Gagal menyiapkan berkas: '+(e&&e.message?e.message:'kesalahan'),4200)}
+  }
+  busy=false;btn.disabled=false;
+}
+document.getElementById('waImgBtn').onclick=function(){shareCard('png')};
+document.getElementById('waPdfBtn').onclick=function(){shareCard('pdf')};
+})();
+</script>
+
 </body></html>

@@ -18,7 +18,7 @@ Basa Jawa (krama) maupun Bahasa Indonesia. Berjalan **sepenuhnya offline**, tanp
 - **6 gaya bingkai**: bunga klasik, klasik, geometri Islami, minimalis, serta *sulur bunga* hijau terang & ungu terang.
 - **4 bingkai foto** almarhum: lingkaran polos, oval berbunga, kotak berbunga, oval garis ganda.
 - **Ukuran teks 10/12/15/20 pt** (bawaan 12 pt = 1 halaman A4).
-- **Salin teks & kirim ke WhatsApp** dengan urutan sama seperti kartu.
+- **Salin teks & kirim ke WhatsApp** dengan urutan sama seperti kartu — termasuk membagikan kartu sebagai **gambar (PNG) atau PDF** lewat menu berbagi perangkat (di komputer: berkas otomatis terunduh untuk dilampirkan).
 - **PWA lintas platform**: bisa dipasang di Android, Windows, Mac, iPhone/iPad; ikon lengkap (favicon, apple-touch-icon, 192/512 px, maskable).
 - **Offline penuh**: seluruh berkas di-cache service worker; draf isian tersimpan otomatis di perangkat.
 - **Buku panduan pengguna** (PDF 14 halaman, termasuk cara pemasangan lintas platform) tersedia di [`docs/Buku-Panduan-Lelayu-RT-RW.pdf`](docs/Buku-Panduan-Lelayu-RT-RW.pdf) — juga bisa dibuka dari tombol **📖 Panduan** di dalam aplikasi, bahkan saat offline.
